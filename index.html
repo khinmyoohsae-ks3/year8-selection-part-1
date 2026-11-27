@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programming in Python: Selection — 40 MCQ Quiz</title>
+  <style>
+    :root {
+      --bg: #fefce8;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --primary: #d97706;
+      --primary-dark: #b45309;
+      --primary-light: #fef3c7;
+      --accent: #0d9488;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --correct: #16a34a;
+      --correct-bg: #dcfce7;
+      --wrong: #dc2626;
+      --wrong-bg: #fee2e2;
+      --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #fff;
+      padding: 24px 20px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .title-group h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .title-group p {
+      font-size: 0.88rem;
+      opacity: 0.94;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    /* Controls Toolbar */
+    .toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    select, button {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    select {
+      background: var(--surface-alt);
+      color: var(--text);
+    }
+
+    .btn {
+      background: var(--surface-alt);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: #e2e8f0;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-accent:hover {
+      background: #0f766e;
+    }
+
+    .btn-danger {
+      background: #fff1f2;
+      color: var(--wrong);
+      border-color: #fecdd3;
+    }
+
+    .btn-danger:hover {
+      background: #ffe4e6;
+    }
+
+    /* View Mode Toggle */
+    .mode-switch {
+      display: flex;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .mode-switch button {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .mode-switch button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Question Cards */
+    .quiz-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .q-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .q-num {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .q-topic {
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: var(--surface-alt);
+      padding: 3px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .swap-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-mini {
+      padding: 4px 9px;
+      font-size: 0.76rem;
+      border-radius: 6px;
+      background: var(--surface-alt);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-mini:hover {
+      color: var(--primary-dark);
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .q-text {
+      font-size: 1.03rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #0f172a;
+    }
+
+    pre {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      margin: 10px 0 14px 0;
+      line-height: 1.45;
+    }
+
+    code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #b45309;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    @media (min-width: 700px) {
+      .options {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      padding: 11px 14px;
+      background: var(--surface-alt);
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      font-weight: 500;
+      color: var(--text);
+      width: 100%;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .option-letter {
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .option-btn.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .option-btn.selected .option-letter {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .option-btn.correct {
+      border-color: var(--correct);
+      background: var(--correct-bg);
+      color: #14532d;
+    }
+
+    .option-btn.correct .option-letter {
+      background: var(--correct);
+      color: #fff;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--wrong);
+      background: var(--wrong-bg);
+      color: #7f1d1d;
+    }
+
+    .option-btn.wrong .option-letter {
+      background: var(--wrong);
+      color: #fff;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      display: none;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      background: var(--correct-bg);
+      color: #14532d;
+      border-left: 4px solid var(--correct);
+    }
+
+    .feedback.wrong {
+      background: var(--wrong-bg);
+      color: #7f1d1d;
+      border-left: 4px solid var(--wrong);
+    }
+
+    /* Single Card Navigation */
+    .single-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      background: var(--surface);
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    /* Results Banner */
+    .results-banner {
+      background: var(--surface);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .results-banner.show {
+      display: flex;
+    }
+
+    .score-big {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="title-group">
+        <h1>Programming in Python: Selection — 40 MCQ Practice</h1>
+        <p>Selection &amp; If Statements, Boolean Operators, Decisions with Calculations &amp; If-Else</p>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-pill" id="stat-answered">Answered: 0 / 40</div>
+        <div class="stat-pill" id="stat-score">Score: 0</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="control-group">
+        <select id="section-filter" title="Filter by Topic">
+          <option value="ALL">All Sections (40 Questions)</option>
+          <option value="1">1. Selection, If Statements &amp; Boolean Operators (18)</option>
+          <option value="2">2. Decisions Based on Calculations (10)</option>
+          <option value="3">3. If Else &amp; Sequential Conditions (12)</option>
+        </select>
+
+        <div class="mode-switch">
+          <button id="mode-list" class="active" onclick="setViewMode('list')">List View</button>
+          <button id="mode-single" onclick="setViewMode('single')">Card View</button>
+        </div>
+
+        <div class="mode-switch">
+          <button id="eval-instant" class="active" onclick="setEvalMode('instant')">Instant Check</button>
+          <button id="eval-exam" onclick="setEvalMode('exam')">Exam Mode</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <button class="btn btn-primary" onclick="swapAllQuestions()" title="Shuffle the order of all questions">
+          ⇄ Swap Questions
+        </button>
+        <button class="btn btn-accent" onclick="swapAllOptions()" title="Shuffle A/B/C/D options inside every question">
+          🔀 Swap Options
+        </button>
+        <button class="btn" onclick="swapBoth()" title="Shuffle both questions and options">
+          🎲 Swap Both
+        </button>
+        <button class="btn" id="btn-submit-exam" style="display:none; background:#16a34a; color:#fff;" onclick="submitExam()">
+          ✔ Submit Exam
+        </button>
+        <button class="btn btn-danger" onclick="resetQuiz()">
+          ↺ Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Results Banner -->
+    <div class="results-banner" id="results-banner">
+      <div>
+        <div class="score-big" id="final-score-text">Your Score: 0 / 40 (0%)</div>
+        <div style="color: var(--muted); font-size: 0.9rem;" id="final-feedback-text"></div>
+      </div>
+      <button class="btn btn-primary" onclick="resetQuiz()">Try Again</button>
+    </div>
+
+    <!-- Quiz Container -->
+    <div class="quiz-grid" id="quiz-container"></div>
+
+    <!-- Single Card Navigation -->
+    <div class="single-nav" id="single-nav" style="display: none;">
+      <button class="btn" id="prev-btn" onclick="navigateSingle(-1)">← Previous</button>
+      <span id="single-counter" style="font-weight: 700;">Question 1 of 40</span>
+      <button class="btn btn-primary" id="next-btn" onclick="navigateSingle(1)">Next →</button>
+    </div>
+  </div>
+
+  <script>
+    const RAW_QUESTIONS = [
+      // Section 1: Selection, If Statements & Boolean Operators (1-18)
+      { id: 1, sec: "1", topic: "1. Selection & Boolean Operators", q: "What is 'selection' in computer programming?", opts: ["Asking a question to which the answer is True or False and following certain steps while ignoring others", "Repeating a block of code a fixed number of times", "Storing a list of items in alphabetical order", "Converting a string into an integer"], ans: 0 },
+      { id: 2, sec: "1", topic: "1. Selection & Boolean Operators", q: "Which symbol is used in a flow diagram to represent a decision?", opts: ["Diamond", "Oval", "Rectangle", "Parallelogram"], ans: 0 },
+      { id: 3, sec: "1", topic: "1. Selection & Boolean Operators", q: "What are the three parts of the first line of a Python <code>if</code> statement?", opts: ["The word if, a condition (answered with True or False), and a colon (:)", "The word if, a variable name, and a semicolon (;)", "The word when, a calculation, and brackets ()", "The word select, an input prompt, and a period (.)"], ans: 0 },
+      { id: 4, sec: "1", topic: "1. Selection & Boolean Operators", q: "What punctuation mark must appear at the very end of the first line of an <code>if</code> statement in Python?", opts: ["A colon (:)", "A semicolon (;)", "A comma (,)", "An exclamation mark (!)"], ans: 0 },
+      { id: 5, sec: "1", topic: "1. Selection & Boolean Operators", q: "What is a Boolean value?", opts: ["A value that can only be True or False", "Any whole number entered by a user", "A sentence enclosed in quotation marks", "A mathematical operator like + or -"], ans: 0 },
+      { id: 6, sec: "1", topic: "1. Selection & Boolean Operators", q: "What does a 'logical test' involve?", opts: ["Comparing two values to obtain an answer that is either True or False", "Adding two integers together", "Sorting a list from smallest to largest", "Printing text to the screen without conditions"], ans: 0 },
+      { id: 7, sec: "1", topic: "1. Selection & Boolean Operators", q: "Which Python Boolean operator means 'equal to'?", opts: ["==", "=", "!=", "<="], ans: 0 },
+      { id: 8, sec: "1", topic: "1. Selection & Boolean Operators", q: "Which Python Boolean operator means 'not equal to'?", opts: ["!=", "==", "<>", ">="], ans: 0 },
+      { id: 9, sec: "1", topic: "1. Selection & Boolean Operators", q: "What does the Boolean operator <code>>=</code> mean?", opts: ["Greater than or equal to", "Less than or equal to", "Strictly greater than", "Not equal to"], ans: 0 },
+      { id: 10, sec: "1", topic: "1. Selection & Boolean Operators", q: "What does the Boolean operator <code><=</code> mean?", opts: ["Less than or equal to", "Greater than or equal to", "Strictly less than", "Equal to"], ans: 0 },
+      { id: 11, sec: "1", topic: "1. Selection & Boolean Operators", q: "Why is <code>int()</code> used in the line <code>sweets = int(input('How many sweets have you eaten? '))</code>?", opts: ["Because Python assumes data entered after input() is a string unless told an integer will be entered", "Because input() only accepts decimal numbers", "To round the number of sweets to the nearest 10", "To convert the number into True or False"], ans: 0 },
+      { id: 12, sec: "1", topic: "1. Selection & Boolean Operators", q: "How do we tell Python which lines of code belong inside an <code>if</code> block (to run only when the condition is True)?", opts: ["By indenting those lines of code (usually by four spaces)", "By enclosing them in curly braces { }", "By writing them in ALL CAPS", "By putting a colon at the end of every line"], ans: 0 },
+      { id: 13, sec: "1", topic: "1. Selection & Boolean Operators", q: "How do you exit an <code>if</code> block in Python so subsequent code runs regardless of whether the condition was True or False?", opts: ["Stop indenting the code (return to the left margin)", "Type the word 'endif'", "Add a blank line with a colon", "Use the != operator"], ans: 0 },
+      { id: 14, sec: "1", topic: "1. Selection & Boolean Operators", q: "Look at this code:<pre>sweets = int(input('How many sweets have you eaten? '))\nif sweets > 10:\n    print('That is a lot of sweets!')\nprint('I hope they were tasty.')</pre>What is output if the user enters <code>15</code>?", opts: ["Both 'That is a lot of sweets!' and 'I hope they were tasty.'", "Only 'That is a lot of sweets!'", "Only 'I hope they were tasty.'", "Nothing is output"], ans: 0 },
+      { id: 15, sec: "1", topic: "1. Selection & Boolean Operators", q: "Using the same program from Q14, what is output if the user enters <code>6</code>?", opts: ["Only 'I hope they were tasty.'", "Both 'That is a lot of sweets!' and 'I hope they were tasty.'", "Only 'That is a lot of sweets!'", "An error message"], ans: 0 },
+      { id: 16, sec: "1", topic: "1. Selection & Boolean Operators", q: "Look at this multiple-if program:<pre>sweets = int(input('How many sweets have you eaten? '))\nif sweets > 10:\n    print('That is a lot of sweets!')\nif sweets < 10:\n    print('You deserve more than that!')\n    print('Have another one.')</pre>What happens if the user enters exactly <code>10</code>?", opts: ["Nothing is printed because neither > 10 nor < 10 is True", "'That is a lot of sweets!' is printed", "'You deserve more than that!' is printed", "All three print statements run"], ans: 0 },
+      { id: 17, sec: "1", topic: "1. Selection & Boolean Operators", q: "In the 'Half price or full price?' flow diagram task (page 100), what condition checks if the user is under 11?", opts: ["age < 11", "age <= 11", "age > 11", "age == 11"], ans: 0 },
+      { id: 18, sec: "1", topic: "1. Selection & Boolean Operators", q: "In the 'Voting age' exercise (page 101), what condition checks if a user is aged 18 or over?", opts: ["age >= 18", "age > 18", "age < 18", "age == 18"], ans: 0 },
+
+      // Section 2: Decisions Based on Calculations (19-28)
+      { id: 19, sec: "2", topic: "2. Decisions Based on Calculations", q: "Can calculations be included inside an <code>if</code> statement in Python?", opts: ["Yes, you can perform calculations inside the indented code block of an if statement", "No, calculations can only be done before an if statement", "Only if you do not use input()", "Only when comparing strings"], ans: 0 },
+      { id: 20, sec: "2", topic: "2. Decisions Based on Calculations", q: "Look at this code:<pre>age = int(input('How old are you? '))\nif age < 18:\n    print('You will be able to vote in', (18-age), 'year(s).')</pre>What is output if the user enters <code>13</code>?", opts: ["You will be able to vote in 5 year(s).", "You will be able to vote in 13 year(s).", "You will be able to vote in 18 year(s).", "Nothing is output"], ans: 0 },
+      { id: 21, sec: "2", topic: "2. Decisions Based on Calculations", q: "In <code>print('You will be able to vote in', (18-age), 'year(s).')</code>, why are commas used around <code>(18-age)</code>?", opts: ["To separate the text strings from the calculated number inside the print statement", "To turn the calculation into a Boolean test", "To indent the line by four spaces", "To convert the number into a string automatically"], ans: 0 },
+      { id: 22, sec: "2", topic: "2. Decisions Based on Calculations", q: "In the 'Passing your exam' task (page 102), a mark of 60 or more passes. If a student enters <code>53</code>, how are the missing marks calculated?", opts: ["60 - mark (which gives 7)", "mark - 60 (which gives -7)", "100 - mark (which gives 47)", "60 + mark (which gives 113)"], ans: 0 },
+      { id: 23, sec: "2", topic: "2. Decisions Based on Calculations", q: "In the 'Passing your exam' task, what should be output if the user enters <code>60</code>?", opts: ["Well done! You have passed.", "Sorry. You have failed.", "You needed 0 more marks to pass.", "Nothing is output"], ans: 0 },
+      { id: 24, sec: "2", topic: "2. Decisions Based on Calculations", q: "In the 'Positive or negative' task (page 103), which three conditions are needed to classify an integer input?", opts: ["num > 0, num < 0, and num == 0", "num >= 0, num <= 0, and num != 0", "num > 1, num < -1, and num == 1", "num == 5, num == -9, and num == 0"], ans: 0 },
+      { id: 25, sec: "2", topic: "2. Decisions Based on Calculations", q: "Look at the 'Checking in' code on page 103:<pre>num = int(input('Enter a number: '))\nif num >= 3:\n    print(num * 2)\nprint(num)</pre>(Note: assuming integer conversion) What is output if we input <code>2</code>?", opts: ["2", "4\n2", "4", "Nothing"], ans: 0 },
+      { id: 26, sec: "2", topic: "2. Decisions Based on Calculations", q: "Using the same code from Q25 (with integer input), what is output if we input <code>4</code>?", opts: ["8 and then 4", "Only 8", "Only 4", "6 and then 4"], ans: 0 },
+      { id: 27, sec: "2", topic: "2. Decisions Based on Calculations", q: "Using the same code from Q25 (with integer input), what is output if we input <code>3</code>?", opts: ["6 and then 3", "Only 3", "Only 6", "3 and then 3"], ans: 0 },
+      { id: 28, sec: "2", topic: "2. Decisions Based on Calculations", q: "In the raw code printed in 'Checking in' Q3 on page 103 (<code>num = input('Enter a number: ')</code> without <code>int()</code>), what would happen if Python tried to compare <code>num >= 3</code>?", opts: ["A TypeError occurs because you cannot compare a string (str) with an integer (int) using >=", "It automatically converts num to an integer", "It always prints 6", "It skips the if statement silently"], ans: 0 },
+
+      // Section 3: If Else & Sequential Conditions (29-40)
+      { id: 29, sec: "3", topic: "3. If Else & Sequential Conditions", q: "What is the purpose of an <code>else</code> statement in Python?", opts: ["To instruct the computer what code to execute when the if condition is False", "To check a brand-new condition without an if statement", "To repeat the if block until it becomes True", "To end the entire Python program immediately"], ans: 0 },
+      { id: 30, sec: "3", topic: "3. If Else & Sequential Conditions", q: "What is the main advantage of using an <code>if ... else</code> structure instead of two separate <code>if</code> statements?", opts: ["It makes the code easier to read, write, and maintain (e.g., changing a threshold value in only one place)", "It allows Python to run without using colons", "It executes both blocks of code at the same time", "It removes the need for indentation"], ans: 0 },
+      { id: 31, sec: "3", topic: "3. If Else & Sequential Conditions", q: "How must the <code>else:</code> line be aligned in Python?", opts: ["At the exact same indentation level as its matching if statement", "Indented four spaces further to the right than the if statement", "Indented eight spaces to the right", "Placed on the same line after the if print statement"], ans: 0 },
+      { id: 32, sec: "3", topic: "3. If Else & Sequential Conditions", q: "In the 'Ride height' task (page 104), a user under 140 cm is too short, otherwise they are welcomed aboard, and the program always ends with 'Have a nice day!'. Where should <code>print('Have a nice day!')</code> be placed?", opts: ["Unindented at the end of the program, after the else block", "Indented inside the if block only", "Indented inside the else block only", "Before the user inputs their height"], ans: 0 },
+      { id: 33, sec: "3", topic: "3. If Else & Sequential Conditions", q: "Look at this code from page 105:<pre>temperature = int(input('Enter the temperature: '))\nif temperature > 20:\n    print('It must be summer.')\nif temperature < 5:\n    print('It must be winter.')\nelse:\n    print('Nice weather for the time of year.')</pre>What is output if a temperature of <code>25</code> is entered?", opts: ["'It must be summer.' AND 'Nice weather for the time of year.'", "Only 'It must be summer.'", "Only 'Nice weather for the time of year.'", "Only 'It must be winter.'"], ans: 0 },
+      { id: 34, sec: "3", topic: "3. If Else & Sequential Conditions", q: "Why does entering <code>25</code> in the Q33 program print BOTH 'It must be summer.' and 'Nice weather for the time of year.'?", opts: ["Because Python checks the second if (25 < 5) which is False, so it executes the else attached to that second if", "Because 25 is greater than 20 and less than 5", "Because Python always executes every else block in a file", "Because the indentation on line 7 is missing"], ans: 0 },
+      { id: 35, sec: "3", topic: "3. If Else & Sequential Conditions", q: "In the Q33 program, what is output if a temperature of <code>3</code> is entered?", opts: ["It must be winter.", "It must be summer.", "Nice weather for the time of year.", "It must be winter. AND Nice weather for the time of year."], ans: 0 },
+      { id: 36, sec: "3", topic: "3. If Else & Sequential Conditions", q: "In the Q33 program, what is output if a temperature of <code>15</code> is entered?", opts: ["Nice weather for the time of year.", "It must be summer.", "It must be winter.", "Nothing is output"], ans: 0 },
+      { id: 37, sec: "3", topic: "3. If Else & Sequential Conditions", q: "Which Python arithmetic operator is used for multiplication?", opts: ["*", "x", "/", "+"], ans: 0 },
+      { id: 38, sec: "3", topic: "3. If Else & Sequential Conditions", q: "Which Python arithmetic operator is used for division?", opts: ["/", "\\", "%", "*"], ans: 0 },
+      { id: 39, sec: "3", topic: "3. If Else & Sequential Conditions", q: "In the 'If and else calculations' task (page 105), if the user's number is greater than 10, the program divides it by 2 and adds 3. What is the result if the user enters <code>14</code>?", opts: ["10 (or 10.0)", "25", "7", "17"], ans: 0 },
+      { id: 40, sec: "3", topic: "3. If Else & Sequential Conditions", q: "In the 'Checking in' fill-in-the-gaps program (page 105), which operator belongs in line 2 (<code>if num ___ 5: print('Too small')</code>) and what number belongs in line 4 (<code>if num > ___:</code>) for a range between 5 and 10?", opts: ["< and 10", "<= and 10", "> and 5", "== and 10"], ans: 0 }
+    ];
+
+    // App State
+    let questions = [];
+    let viewMode = 'list';      // 'list' | 'single'
+    let evalMode = 'instant';   // 'instant' | 'exam'
+    let examSubmitted = false;
+    let currentSection = 'ALL';
+    let singleIndex = 0;
+
+    // Fisher-Yates Shuffle
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // Initialize Questions with Initial Option Shuffle
+    function initQuestions() {
+      questions = RAW_QUESTIONS.map(item => {
+        const mappedOpts = item.opts.map((text, idx) => ({
+          text,
+          isCorrect: idx === item.ans
+        }));
+        return {
+          ...item,
+          options: shuffleArray(mappedOpts),
+          selectedOptionIndex: null
+        };
+      });
+    }
+
+    // Swap All Questions Order
+    function swapAllQuestions() {
+      questions = shuffleArray(questions);
+      singleIndex = 0;
+      render();
+    }
+
+    // Swap Options Inside Every Question (Preserving User Selection)
+    function swapAllOptions() {
+      questions.forEach(q => {
+        const selectedObj = q.selectedOptionIndex !== null ? q.options[q.selectedOptionIndex] : null;
+        q.options = shuffleArray(q.options);
+        if (selectedObj) {
+          q.selectedOptionIndex = q.options.indexOf(selectedObj);
+        }
+      });
+      render();
+    }
+
+    // Swap Both Questions & Options
+    function swapBoth() {
+      swapAllOptions();
+      swapAllQuestions();
+    }
+
+    // Swap Options for a Single Question Card
+    function swapSingleQuestionOptions(qId) {
+      const q = questions.find(item => item.id === qId);
+      if (!q) return;
+      const selectedObj = q.selectedOptionIndex !== null ? q.options[q.selectedOptionIndex] : null;
+      q.options = shuffleArray(q.options);
+      if (selectedObj) {
+        q.selectedOptionIndex = q.options.indexOf(selectedObj);
+      }
+      render();
+    }
+
+    // Swap Position of a Question with Another Random Question
+    function swapQuestionPosition(qId) {
+      const visible = getFilteredQuestions();
+      if (visible.length < 2) return;
+      const idxInFull = questions.findIndex(item => item.id === qId);
+      let targetQ = visible[Math.floor(Math.random() * visible.length)];
+      while (targetQ.id === qId) {
+        targetQ = visible[Math.floor(Math.random() * visible.length)];
+      }
+      const targetIdxInFull = questions.findIndex(item => item.id === targetQ.id);
+      [questions[idxInFull], questions[targetIdxInFull]] = [questions[targetIdxInFull], questions[idxInFull]];
+      render();
+    }
+
+    function getFilteredQuestions() {
+      if (currentSection === 'ALL') return questions;
+      return questions.filter(q => q.sec === currentSection);
+    }
+
+    function selectOption(qId, optIdx) {
+      if (evalMode === 'exam' && examSubmitted) return;
+      const q = questions.find(item => item.id === qId);
+      if (!q) return;
+      if (evalMode === 'instant' && q.selectedOptionIndex !== null) return;
+
+      q.selectedOptionIndex = optIdx;
+      updateStats();
+      render();
+    }
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      singleIndex = 0;
+      document.getElementById('mode-list').classList.toggle('active', mode === 'list');
+      document.getElementById('mode-single').classList.toggle('active', mode === 'single');
+      render();
+    }
+
+    function setEvalMode(mode) {
+      evalMode = mode;
+      examSubmitted = false;
+      document.getElementById('eval-instant').classList.toggle('active', mode === 'instant');
+      document.getElementById('eval-exam').classList.toggle('active', mode === 'exam');
+      document.getElementById('btn-submit-exam').style.display = mode === 'exam' ? 'inline-flex' : 'none';
+      document.getElementById('results-banner').classList.remove('show');
+      resetQuiz();
+    }
+
+    function submitExam() {
+      examSubmitted = true;
+      updateStats();
+      render();
+      const visible = getFilteredQuestions();
+      const correctCount = visible.filter(q => q.selectedOptionIndex !== null && q.options[q.selectedOptionIndex].isCorrect).length;
+      const pct = Math.round((correctCount / visible.length) * 100);
+
+      document.getElementById('final-score-text').textContent = `Exam Score: ${correctCount} / ${visible.length} (${pct}%)`;
+      document.getElementById('final-feedback-text').textContent =
+        pct >= 80 ? "Well done! You have passed with strong mastery of Python selection." :
+        pct >= 60 ? "Good effort! Review the highlighted corrections below." :
+        "Keep practicing! Use the Swap buttons to drill Python selection again.";
+      document.getElementById('results-banner').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetQuiz() {
+      examSubmitted = false;
+      singleIndex = 0;
+      document.getElementById('results-banner').classList.remove('show');
+      initQuestions();
+      updateStats();
+      render();
+    }
+
+    function navigateSingle(dir) {
+      const visible = getFilteredQuestions();
+      singleIndex = Math.max(0, Math.min(visible.length - 1, singleIndex + dir));
+      render();
+    }
+
+    function updateStats() {
+      const visible = getFilteredQuestions();
+      const answered = visible.filter(q => q.selectedOptionIndex !== null).length;
+      const correct = visible.filter(q => q.selectedOptionIndex !== null && q.options[q.selectedOptionIndex].isCorrect).length;
+
+      document.getElementById('stat-answered').textContent = `Answered: ${answered} / ${visible.length}`;
+      if (evalMode === 'exam' && !examSubmitted) {
+        document.getElementById('stat-score').textContent = `Score: Hidden (Exam Mode)`;
+      } else {
+        document.getElementById('stat-score').textContent = `Score: ${correct}`;
+      }
+    }
+
+    function render() {
+      const container = document.getElementById('quiz-container');
+      const singleNav = document.getElementById('single-nav');
+      const visible = getFilteredQuestions();
+      updateStats();
+
+      if (visible.length === 0) {
+        container.innerHTML = `<div class="card">No questions found for this section.</div>`;
+        return;
+      }
+
+      let toRender = visible;
+      if (viewMode === 'single') {
+        if (singleIndex >= visible.length) singleIndex = visible.length - 1;
+        toRender = [visible[singleIndex]];
+        singleNav.style.display = 'flex';
+        document.getElementById('single-counter').textContent = `Question ${singleIndex + 1} of ${visible.length}`;
+        document.getElementById('prev-btn').disabled = singleIndex === 0;
+        document.getElementById('next-btn').disabled = singleIndex === visible.length - 1;
+      } else {
+        singleNav.style.display = 'none';
+      }
+
+      const letters = ['A', 'B', 'C', 'D'];
+      container.innerHTML = toRender.map((q, idx) => {
+        const displayNum = viewMode === 'single' ? singleIndex + 1 : idx + 1;
+        const showResult = (evalMode === 'instant' && q.selectedOptionIndex !== null) || (evalMode === 'exam' && examSubmitted);
+        const isUserCorrect = q.selectedOptionIndex !== null && q.options[q.selectedOptionIndex].isCorrect;
+        const correctLetter = letters[q.options.findIndex(o => o.isCorrect)];
+
+        const optionsHtml = q.options.map((opt, oIdx) => {
+          let cls = 'option-btn';
+          if (showResult) {
+            if (opt.isCorrect) cls += ' correct';
+            else if (q.selectedOptionIndex === oIdx) cls += ' wrong';
+          } else if (q.selectedOptionIndex === oIdx) {
+            cls += ' selected';
+          }
+
+          return `
+            <button class="${cls}" onclick="selectOption(${q.id}, ${oIdx})" ${showResult ? 'disabled' : ''}>
+              <span class="option-letter">${letters[oIdx]}</span>
+              <span>${opt.text}</span>
+            </button>
+          `;
+        }).join('');
+
+        let feedbackHtml = '';
+        if (showResult) {
+          if (q.selectedOptionIndex === null) {
+            feedbackHtml = `<div class="feedback wrong show">Not answered. Correct answer: <strong>${correctLetter}</strong></div>`;
+          } else if (isUserCorrect) {
+            feedbackHtml = `<div class="feedback correct show">✔ Correct! (${correctLetter})</div>`;
+          } else {
+            feedbackHtml = `<div class="feedback wrong show">✘ Incorrect. The correct answer is <strong>${correctLetter}</strong>.</div>`;
+          }
+        }
+
+        return `
+          <div class="card">
+            <div class="card-header">
+              <div class="q-meta">
+                <span class="q-num">Q${displayNum} <small style="opacity:0.7;">(#${q.id})</small></span>
+                <span class="q-topic">${q.topic}</span>
+              </div>
+              <div class="swap-actions">
+                <button class="btn-mini" onclick="swapQuestionPosition(${q.id})" title="Swap this question's position">⇄ Swap Q</button>
+                <button class="btn-mini" onclick="swapSingleQuestionOptions(${q.id})" title="Shuffle A/B/C/D for this question">🔀 Swap Opts</button>
+              </div>
+            </div>
+            <div class="q-text">${q.q}</div>
+            <div class="options">${optionsHtml}</div>
+            ${feedbackHtml}
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('section-filter').addEventListener('change', (e) => {
+      currentSection = e.target.value;
+      singleIndex = 0;
+      render();
+    });
+
+    // Boot
+    initQuestions();
+    render();
+  </script>
+</body>
+</html>
